@@ -57,4 +57,20 @@ $(document).ready(() => {
 
   $('.tweet-form').append(`<div class='tweet-form-submit'></div>`)
   $('.tweet-form-submit').append(`<input type='submit' />`)
+
+  //Listen for the submit
+  $('.tweet-form').on('submit', function(event){
+    event.preventDefault();
+    const username = $('#username').val();
+    const message = $('#tweet').val();
+    visitor = username;
+
+    const $tweet = $('<div></div>');
+    const text = `@${username}: ${message}`;
+    $tweet.text(text);
+
+    $('body').prepend($tweet);
+
+    this.reset();
+  })
 });
