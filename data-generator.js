@@ -51,7 +51,6 @@ const generateRandomTweet = () => {
     user: randomElement(users),
     message: randomMessage(),
     created_at: new Date(),
-    relative: moment().startOf('second').fromNow()
   };
   addTweet(tweet);
 };
