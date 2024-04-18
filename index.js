@@ -47,5 +47,14 @@ $(document).ready(() => {
 
   //Create User Tweet Form
   $('button').before('<form action="" method="get" class="tweet-form">')
+  $('.tweet-form').append(`<div class='tweet-form-username'></div>`)
+  $('.tweet-form-username').append(`<label for='username'>Username:</label>`)
+  $('.tweet-form-username').append(`<input type='text' name='username' id='username' required />`)
 
+  $('.tweet-form').append(`<div class='tweet-form-tweet'></div>`)
+  $('.tweet-form-tweet').append(`<label for='tweet'>Speak Your Mind:</label>`)
+  $('.tweet-form-tweet').append(`<input type='text' name='tweet' id='tweet' required />`)
+
+  $('.tweet-form').append(`<div class='tweet-form-submit'></div>`)
+  $('.tweet-form-submit').append(`<input type='submit' />`)
 });
