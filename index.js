@@ -9,12 +9,16 @@ $(document).ready(() => {
   //Function to add tweets
   function addNewTweets(){
     const $tweets = streams.home.filter(tweet => !displayedTweets[tweet.created_at])
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .map((tweet) => {
       const $tweet = $('<div></div>');
       const $username = $(`<span class="username">@${tweet.user}</span>`);
-      const text = `: ${tweet.message} ${tweet.relative}`;
+      const $message = $(`<span class="message">${tweet.message}</span>`);
+      const timestamp = new Date(tweet.created_at);
+      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}">${moment(timestamp).fromNow()}</span>`);
 
-      $tweet.append($username, text);
+      $tweet.append($username, ': ', $message, ' - ', $timestamp);
+
 
       displayedTweets[tweet.created_at] = true;
 
@@ -34,15 +38,7 @@ $(document).ready(() => {
   //Get Tweet History
   $body.on('click', '.username', function(){
     const username = $(this).text().replace(/^@/, '');
-    const userTweets = streams.users[username];
-    $body.empty();
-
-    userTweets.forEach(tweet => {
-      const $tweet = $('<div></div>');
-      const text = `@${tweet.user}: ${tweet.message} ${tweet.relative}`;
-      $tweet.text(text);
-      $body.append($tweet);
-    });
+    userTweets(username)
   })
 
   //Create User Tweet Form
@@ -65,12 +61,40 @@ $(document).ready(() => {
     const message = $('#tweet').val();
     visitor = username;
 
-    const $tweet = $('<div></div>');
-    const text = `@${username}: ${message}`;
-    $tweet.text(text);
+    if(!streams.users[username]){
+      streams.users[username] = [];
+    }
+    writeTweet(message);
+    addNewTweets();
 
-    $('body').prepend($tweet);
-
-    this.reset();
+    $('#username').val('');
+  $('#tweet').val('');
   })
+
+  function userTweets(username){
+    const userTweets = streams.users[username];
+    $body.empty();
+
+    userTweets.forEach(tweet => {
+      const $tweet = $('<div></div>');
+      const text = `@${tweet.user}: ${tweet.message} ${moment().startOf('second').fromNow()}`;
+      $tweet.text(text);
+      $body.append($tweet);
+    })
+  }
+
+  function updateRelativeTimestamps() {
+    $('.timestamp').each(function() {
+      const $timestamp = $(this);
+      const timestamp = new Date($timestamp.data('timestamp'));
+      const relativeTime = moment(timestamp).fromNow();
+      $timestamp.text(relativeTime);
+    });
+  }
+  
+  // Call the function initially to update existing timestamps
+  updateRelativeTimestamps();
+  
+  // Set interval to update timestamps every minute (or as frequently as desired)
+  setInterval(updateRelativeTimestamps, 30000);
 });
