@@ -29,7 +29,7 @@ $(document).ready(() => {
     const $tweets = streams.home.filter(tweet => !displayedTweets[tweet.created_at])
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .map((tweet) => {
-      const $tweet = $('<div class="tweet" style="border: 3px solid black;"></div>');
+      const $tweet = $('<div class="tweet" style="border: 3px solid black; margin-top: 10px;"></div>');
       const $username = $(`<span class="username">@${tweet.user}</span>`);
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1">#$1</span>');
       const $message = $(`<span class="message">${messageWithHashtags}</span>`);
@@ -49,7 +49,7 @@ $(document).ready(() => {
     return $tweets
   }
   addNewTweets()
-  $('div').css('margin-top', '10px')
+
   //Fetch Tweets Button
   $($body).before('<button id="get-more-tweets-button"> Get More Tweets!')
   $('#get-more-tweets-button').on('click', function(){
