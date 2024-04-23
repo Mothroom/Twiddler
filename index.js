@@ -37,13 +37,14 @@ $(document).ready(() => {
     const $tweets = streams.home.filter(tweet => !displayedTweets[tweet.created_at])
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .map((tweet) => {
-      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px;"></div>');
+      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px; background-color: #292929"></div>');
       const $username = $(`<span class="username">@${tweet.user}</span>`);
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message" >${messageWithHashtags}</span>`);
       const timestamp = new Date(tweet.created_at);
       const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${moment(timestamp).fromNow()}</span>`);
 
+      
       $tweet.append($username, ': ', $message, ' - ', $timestamp);
       displayedTweets[tweet.created_at] = true;
       return $tweet;
@@ -84,6 +85,7 @@ $(document).ready(() => {
   //!Form Style!//
   $('form').css('border', '5px outset black');
   $('form').css('border-radius', '15px');
+  $('form').css('background-color', '#292929');
   $('#username').css('margin-left', '40px');
   $('#username').css('width', '450px');
   $('#tweet').css('width', '450px');
@@ -115,14 +117,14 @@ $(document).ready(() => {
     addNewTweets();
 
     $('#username').val('');
-  $('#tweet').val('');
+    $('#tweet').val('');
   })
 
 // Function to show tweets with the same hashtag
   function hashtags(tweets) {
     $('.tweet-container').empty();
     tweets.forEach(tweet => {
-      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px;"></div>');
+      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px; background-color: #292929"></div>');
       const $username = $(`<span class="username">@${tweet.user}</span>`);
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message">${messageWithHashtags}</span>`);
@@ -148,7 +150,7 @@ $(document).ready(() => {
     const userTweets = streams.users[username];
     $('.tweet-container').empty();
     userTweets.forEach(tweet => {
-      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px;"></div>');
+      const $tweet = $('<div class="tweet" style="border: 4px solid black; border-radius: 10px; margin-top: 10px; background-color: #292929"></div>');
       const $username = $(`<span class="username">@${tweet.user}</span>`);
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message">${messageWithHashtags}</span>`);
