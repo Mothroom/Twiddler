@@ -42,9 +42,11 @@ $(document).ready(() => {
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message" >${messageWithHashtags}</span>`);
       const timestamp = new Date(tweet.created_at);
-      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${moment(timestamp).fromNow()}</span>`);
+      const absoluteTime = moment(timestamp).format('YYYY-MM-DD hh:mm A');
+      const relativeTime = moment(timestamp).fromNow();
+      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${relativeTime} ${absoluteTime}</span>`);
+      console.log(absoluteTime)
 
-      
       $tweet.append($username, ': ', $message, ' - ', $timestamp);
       displayedTweets[tweet.created_at] = true;
       return $tweet;
@@ -129,7 +131,10 @@ $(document).ready(() => {
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message">${messageWithHashtags}</span>`);
       const timestamp = new Date(tweet.created_at);
-      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${moment(timestamp).fromNow()}</span>`);
+      const absoluteTime = moment(timestamp).format('YYYY-MM-DD hh:mm A');
+      const relativeTime = moment(timestamp).fromNow();
+      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${relativeTime} ${absoluteTime}</span>`);
+
       $tweet.append($username, ': ', $message, ' - ', $timestamp);
       $('.tweet-container').prepend($tweet);
     });
@@ -155,7 +160,9 @@ $(document).ready(() => {
       const messageWithHashtags = tweet.message.replace(/#(\w+)/g, '<span class="hashtag" data-tag="$1" style="color: #add8e6">#$1</span>');
       const $message = $(`<span class="message">${messageWithHashtags}</span>`);
       const timestamp = new Date(tweet.created_at);
-      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${moment(timestamp).fromNow()}</span>`);
+      const absoluteTime = moment(timestamp).format('YYYY-MM-DD hh:mm A');
+      const relativeTime = moment(timestamp).fromNow();
+      const $timestamp = $(`<span class="timestamp" data-timestamp="${timestamp}" style="color: #d3d3d3">${relativeTime} ${absoluteTime}</span>`);
 
       $tweet.append($username, ': ', $message, ' - ', $timestamp);
       $('.tweet-container').prepend($tweet);
@@ -167,8 +174,10 @@ $(document).ready(() => {
     $('.timestamp').each(function() {
       const $timestamp = $(this);
       const timestamp = new Date($timestamp.data('timestamp'));
+      const absoluteTime = moment(timestamp).format('YYYY-MM-DD hh:mm A');
       const relativeTime = moment(timestamp).fromNow();
-      $timestamp.text(relativeTime);
+
+      $timestamp.text(`${relativeTime} (${absoluteTime})`);
     });
   }
 
